@@ -90,7 +90,6 @@ The containerized FastAPI service successfully queries the internal PostgreSQL c
 The Adminer service successfully mounts on port `8081` and allows secure visual query inspections of the seeded `users` table directly inside the internal container network.
 
 ![Adminer Table View Screenshot](images/adminer-gui.png)
-*(Replace this with a screenshot of your Adminer interface showing the table list and rows inside the "nextwork" database)*
 
 ---
 
