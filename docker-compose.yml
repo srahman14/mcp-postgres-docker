@@ -18,3 +18,16 @@ services:
     container_name: adminer
     ports:
       - "8081:8080"
+
+  api-service:
+    build: .                
+    container_name: api-service
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=my-db        
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - my-db               
