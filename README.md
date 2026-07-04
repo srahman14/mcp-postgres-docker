@@ -93,6 +93,32 @@ The Adminer service successfully mounts on port `8081` and allows secure visual 
 
 ---
 
+## Challenges Faced
+
+### Resolving Stuck Container "CREATED" State (WSL2 / Windows)
+
+#### 1. The Issue
+During the initial deployment run via Cursor's Docker MCP, the database container became stuck in the `CREATED` state instead of transitioning to `RUNNING`.
+
+#### 2. Verification & Diagnostics
+To confirm the error state, the following commands were run in the terminal:
+- `docker ps -a`: Showed container `my-db` with a status of `CREATED` instead of `UP`.
+- `docker logs my-db`: The command hung indefinitely, confirming that the container engine was experiencing backend runtime socket deadlocks and couldn't initialize the database processes.
+
+#### 3. Resolution Steps
+To cleanly recover the environment without corrupting the local filesystem:
+1. **Force Shutdown of the WSL VM:** The underlying Windows Subsystem for Linux (WSL2) engine was terminated to reset system socket attachments:
+   ```powershell
+   wsl --shutdown
+   ```
+2. **Restart Docker Desktop:** Rebooted the daemon, launching a clean Hyper-V/WSL2 system state.
+3. **Prune Corrupted Container Resources:** Cleared the stale container metadata from the command-line interface:
+   ```powershell
+   docker rm my-db
+   ```
+4. **Successful Re-Provisioning:** Prompted Cursor again via the Docker MCP. The container immediately initialized and transitioned into a healthy running state.
+
+---
 ## Getting Started (Local Run Guide)
 
 ### Prerequisites
