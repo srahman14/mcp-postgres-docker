@@ -22,16 +22,75 @@ To transform this from a simple configuration into a robust portfolio project, t
 ## Repository Structure
 
 ```plaintext
-├── .venv/                  # Local isolated Python virtual environment 
+├── images/                 # Saved screenshots demonstrating system success
+│   ├── docker-running.png
+│   ├── api-response.png
+│   └── adminer-gui.png
+├── .venv/                  # Local isolated Python virtual environment (ignored by Git)
 ├── .gitignore              # Keeps credentials and massive libraries off GitHub
 ├── .env.example            # Deployment template showing required variable keys
 ├── app.py                  # FastAPI REST API serving database records as JSON
-├── Dockerfile              # Instructions for building custom Python API image
+├── Dockerfile              # Instructions for building your custom Python API image
 ├── docker-compose.yml      # Orchestrates the database, API service, and Adminer
 ├── init.sql                # SQL initialization file for schema seeding
 ├── requirements.txt        # Explicit python dependency manifest
 └── README.md               # Production-ready developer documentation
 ```
+
+---
+
+## Visual Verifications & Verification Demos
+
+This section visually verifies that the multi-container architecture is operating successfully.
+
+### 1. Multi-Container Orchestration (Docker Desktop)
+Below is proof of all three containers—the database, web GUI admin dashboard, and custom FastAPI server—running simultaneously on the custom Docker network bridge.
+
+![Docker Desktop Active Containers](images/docker-running.png)
+
+---
+
+### 2. FastAPI JSON Service Endpoint
+The containerized FastAPI service successfully queries the internal PostgreSQL container and serves standard, serialized JSON database records directly to the local browser port.
+
+#### Request URL:
+`http://localhost:8000/users`
+
+#### Active API Response:
+```json
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Alice Smith",
+      "email": "alice@example.com",
+      "role": "Admin"
+    },
+    {
+      "id": 2,
+      "name": "Bob Jones",
+      "email": "bob@example.com",
+      "role": "Developer"
+    },
+    {
+      "id": 3,
+      "name": "Charlie Brown",
+      "email": "charlie@example.com",
+      "role": "User"
+    }
+  ]
+}
+```
+
+![FastAPI Users Output screenshot](images/api-response.png)
+
+---
+
+### 3. Database Administration Dashboard (Adminer GUI)
+The Adminer service successfully mounts on port `8081` and allows secure visual query inspections of the seeded `users` table directly inside the internal container network.
+
+![Adminer Table View Screenshot](images/adminer-gui.png)
+*(Replace this with a screenshot of your Adminer interface showing the table list and rows inside the "nextwork" database)*
 
 ---
 
@@ -68,12 +127,12 @@ To transform this from a simple configuration into a robust portfolio project, t
 
 4. **Verify Your Running Infrastructure:**
    - **Interactive API Documentation:** Open your browser and navigate to `http://localhost:8000/docs` to test endpoints visually.
-   - **JSON Endpoints:** Visit `http://localhost:8000/users` to view live, container-served PostgreSQL database records.
+   - **JSON Endpoints:** Visit `http://localhost:8000/users` to view your live, container-served PostgreSQL database records.
    - **Admin Panel GUI:** Log in to `http://localhost:8081` with your credentials to manage records visually.
 
 ---
 
-## 💡 Skills Demonstrated in This Project
+## Skills Demonstrated in This Project
 
 - **Model Context Protocol (MCP):** Configuring and utilizing local AI communication channels to safely execute native command processes.
 - **Docker Orchestration & DevOps:** Crafting custom multi-container environments and configuring local host port forwarding mapping.
